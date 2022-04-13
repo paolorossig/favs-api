@@ -18,11 +18,11 @@ export class FavsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.favsService.findOne(+id);
+    return this.favsService.findOne(id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.favsService.remove(+id);
+    return this.favsService.remove(id);
   }
 }
