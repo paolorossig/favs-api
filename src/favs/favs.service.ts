@@ -6,27 +6,25 @@ import { Favs, FavsDocument } from './schema/favs.schema';
 
 @Injectable()
 export class FavsService {
-  constructor(
-    @InjectModel(Favs.name) private favsModule: Model<FavsDocument>,
-  ) {}
+  constructor(@InjectModel(Favs.name) private favsModel: Model<FavsDocument>) {}
 
   async create(createFavDto: CreateFavDto) {
-    const fav = await this.favsModule.create(createFavDto);
+    const fav = await this.favsModel.create(createFavDto);
     return fav;
   }
 
   async findAll() {
-    const favs = await this.favsModule.find({}).lean();
+    const favs = await this.favsModel.find({}).lean();
     return favs;
   }
 
   async findOne(id: string) {
-    const fav = await this.favsModule.findById(id);
+    const fav = await this.favsModel.findById(id);
     return fav;
   }
 
   async remove(id: string) {
-    const favDeleted = await this.favsModule.findByIdAndDelete(id);
+    const favDeleted = await this.favsModel.findByIdAndDelete(id);
     return favDeleted;
   }
 }

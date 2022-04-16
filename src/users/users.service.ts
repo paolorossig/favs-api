@@ -7,26 +7,31 @@ import { Users, UsersDocument } from './schema/users.schema';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(Users.name) private usersModule: Model<UsersDocument>,
+    @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.usersModule.create(createUserDto);
+    const user = await this.usersModel.create(createUserDto);
     return user;
   }
 
   async findAll() {
-    const users = await this.usersModule.find({}).lean();
+    const users = await this.usersModel.find({}).lean();
     return users;
   }
 
   async findOne(id: string) {
-    const user = await this.usersModule.findById(id);
+    const user = await this.usersModel.findById(id);
+    return user;
+  }
+
+  async findByQuery(query: any) {
+    const user = await this.usersModel.findOne(query);
     return user;
   }
 
   async remove(id: string) {
-    const userDeleted = await this.usersModule.findByIdAndDelete(id);
+    const userDeleted = await this.usersModel.findByIdAndDelete(id);
     return userDeleted;
   }
 }
