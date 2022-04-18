@@ -13,7 +13,10 @@ import { FavsService } from './favs.service';
 import { PartialCreateFavDto } from './dto/create-fav.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateFavDto } from './dto/update-fav.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('favs')
 @UseGuards(JwtAuthGuard)
 @Controller('favs')
 export class FavsController {

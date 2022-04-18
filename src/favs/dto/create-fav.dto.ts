@@ -1,7 +1,9 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { User } from 'src/users/schema/user.schema';
 
 export class PartialCreateFavDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
