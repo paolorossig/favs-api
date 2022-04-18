@@ -6,10 +6,13 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
+  Put,
 } from '@nestjs/common';
 import { FavsService } from './favs.service';
-import { CreateFavDto } from './dto/create-fav.dto';
+import { PartialCreateFavDto } from './dto/create-fav.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UpdateFavDto } from './dto/update-fav.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('favs')
@@ -17,22 +20,27 @@ export class FavsController {
   constructor(private readonly favsService: FavsService) {}
 
   @Post()
-  create(@Body() createFavDto: CreateFavDto) {
-    return this.favsService.create(createFavDto);
+  async create(@Request() req, @Body() createFavDto: PartialCreateFavDto) {
+    return this.favsService.create({ ...createFavDto, user: req.user.userId });
   }
 
   @Get()
-  findAll() {
-    return this.favsService.findAll();
+  async findAll(@Request() req) {
+    return this.favsService.findAllByQuery({ user: req.user.userId });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.favsService.findOne(id);
   }
 
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateFavDto: UpdateFavDto) {
+    return this.favsService.updateListOfFavs(id, updateFavDto);
+  }
+
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.favsService.remove(id);
   }
 }

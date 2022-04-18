@@ -1,15 +1,14 @@
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { User } from 'src/users/schema/user.schema';
 
-export class CreateFavDto {
+export class PartialCreateFavDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  name: string;
+}
 
-  @IsString()
+export class CreateFavDto extends PartialCreateFavDto {
+  @IsMongoId()
   @IsNotEmpty()
-  description: string;
-
-  @IsUrl()
-  @IsNotEmpty()
-  link: string;
+  user: User;
 }
